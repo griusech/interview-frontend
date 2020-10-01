@@ -15,21 +15,41 @@ const Welcome = () => {
 }
 
 const App = () => {
+
+  const NavLink = props => (
+    <Link
+      {...props}
+      getProps={({ isCurrent }) => {
+
+        return {
+          style: {
+            color: isCurrent ? "blue" : "black"
+          }
+        };
+      }}
+    />
+  );
+
   return <div className="container">
-    <h1 class="py-4">FrontEnd Interview Exercises</h1>
+    
+    <h1 className="py-4">
+      <Link to="/">
+      FrontEnd Interview Exercises
+      </Link>
+    </h1>
+        
 
     <ul className="nav nav-tabs">
       <li className="nav-item">
-        <Link to="/" className="nav-link active">Homepage</Link>
       </li>
       <li className="nav-item">
-        <Link to="/exercise01" className="nav-link">Exercise 01</Link>
+        <NavLink  to="/exercise01" className="nav-link">Exercise 01</NavLink >
       </li>
       <li className="nav-item">
-        <Link to="/exercise02" className="nav-link">Exercise 02</Link>
+        <NavLink  to="/exercise02" className="nav-link">Exercise 02</NavLink >
       </li>
       <li className="nav-item">
-        <Link to="/exercise03" className="nav-link">Exercise 03</Link>
+        <NavLink  to="/exercise03" className="nav-link">Exercise 03</NavLink >
       </li>
     </ul>
 

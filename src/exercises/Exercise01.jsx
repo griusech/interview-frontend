@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TOTAL_USERS = 6
+// const TOTAL_USERS = 6
 
 const Exercise01 = () => {
   const [users, setUsers] = React.useState([])
@@ -16,19 +16,17 @@ const Exercise01 = () => {
   5 users, then we need to hit the URL 5 times).
   */
 
+  const obtenerDatos = async() => {
+
+      const url_api = await fetch(`https://jsonplaceholder.typicode.com/users`)
+      const res = await url_api.json()
+      setUsers(res.slice(0, 5))
+  }
+
   React.useEffect(() => {
-    for(var i = 1; i < TOTAL_USERS; i++) {
-      // We fetch the user
-      fetch('https://jsonplaceholder.typicode.com/users?id=' + i)
-        .then(r => r.json()) // converts response to obj
-        .then(user => user[0]) // maps [{..}] to {..} since the API provides an array
-        .then(user => {
-          setUsers([
-            ...users,
-            user
-          ])
-        })
-    }
+    
+    obtenerDatos();
+    
   }, [])
 
   /* THE FIX ENDS HERE */
@@ -52,9 +50,14 @@ const Exercise01 = () => {
       <h3>Users</h3>
 
       <ul className="list-group">
-        {users.map(user => <li key={`user-${user.id}`} className="list-group-item">
-          <strong>ID:</strong> {user.id} - <strong>Name:</strong> {user.name} <strong>Email:</strong> {user.email}
-        </li>)}
+        {users.map(user => 
+          <li 
+            key={`user-${user.id}`} 
+            className="list-group-item"
+          >
+            <strong>ID:</strong> {user.id} - <strong>Name:</strong> {user.name} <strong>Email:</strong> {user.email}
+          </li>
+        )}
       </ul>
 
     </div>

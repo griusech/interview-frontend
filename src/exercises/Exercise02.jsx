@@ -1,33 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /* THE FIX STARTS HERE */
 
 // state data for 3 counters
-const data = [
-  { id: 1, value: 0 },
-  { id: 2, value: 0 },
-  { id: 3, value: 0 },
-];
 
 // Counter Component
-const Counter = ({ value }) => {
+const Counter = ({ value, onIncrement , onDecrement  }) => {
+  
   return (
     <div className="d-flex my-2">
       <strong>{value}</strong>
       <div className="ml-2">
-        <button className="btn btn-danger mr-1">-</button>
-        <button className="btn btn-success">+</button>
+        <button onClick={onDecrement} className="btn btn-danger mr-1">-</button>
+        <button onClick={onIncrement} className="btn btn-success">+</button>
       </div>
     </div>
   );
 };
 
+
 const GroupOfCounters = () => {
+  
+  const [values, setValues] = useState([
+    { id: 1, value: 0 },
+    { id: 2, value: 0 },
+    { id: 3, value: 0 },
+    
+  ])
+
+  const onIncrement  = (id) => {    
+    setValues(values.map( item => item.id === id ? {...item, value: item.value + 1 } : item))
+  }
+
+  const onDecrement  = (id) => {
+    setValues(values.map( item => item.id === id ? {...item, value: item.value > 0 ? item.value - 1 : 0} : item))
+  }
+  
+  
   return (
     <div>
-      {data.map((counter) => (
-        <Counter key={counter.id} value={counter.value} />
-      ))}
+      {values.map((counter) => (
+        <Counter 
+        key={counter.id}
+        onIncrement ={() => onIncrement (counter.id)}
+        onDecrement ={() => onDecrement (counter.id)}
+        value={counter.value}/>   
+        
+        
+        ))}
+
+      <h4 className="d-flex">CONTADOR GENERAL: 
+        
+        {          
+          values.reduce((acc, el) => acc + el.value, 0)
+        }
+        
+      </h4>
     </div>
   );
 };
